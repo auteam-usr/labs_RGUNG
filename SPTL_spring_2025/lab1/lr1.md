@@ -63,7 +63,7 @@
         background-color: white;
         ```  
         ![](lab1_images/11.jpg)
-    Аналогично измените фон для `ListWidget`. 
+    - Аналогично измените фон для `ListWidget`. 
     ![](lab1_images/12.jpg)
     
    - **QPushButton** для кнопок:
