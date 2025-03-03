@@ -1,0 +1,9 @@
+# ninja log v6
+32	1458	7599805151649491	PersonalOrganizer_autogen/timestamp	d04a96651a1c5416
+32	1458	7599805151649491	PersonalOrganizer_autogen/mocs_compilation.cpp	d04a96651a1c5416
+32	1458	7599805151649491	C:/Users/Admin/Documents/PersonalOrganizer/build/Desktop_Qt_6_8_2_MinGW_64_bit-Debug/PersonalOrganizer_autogen/timestamp	d04a96651a1c5416
+5956	11817	7599798459616682	CMakeFiles/PersonalOrganizer.dir/PersonalOrganizer_autogen/mocs_compilation.cpp.obj	b293288e53d64618
+32	1458	7599805151649491	C:/Users/Admin/Documents/PersonalOrganizer/build/Desktop_Qt_6_8_2_MinGW_64_bit-Debug/PersonalOrganizer_autogen/mocs_compilation.cpp	d04a96651a1c5416
+5968	11937	7599798459736736	CMakeFiles/PersonalOrganizer.dir/main.cpp.obj	b2f605b65e84c3ae
+1459	7270	7599805165917600	CMakeFiles/PersonalOrganizer.dir/mainwindow.cpp.obj	3a19447b62239a0
+7270	7700	7599805224028019	PersonalOrganizer.exe	7f568d653404dd53

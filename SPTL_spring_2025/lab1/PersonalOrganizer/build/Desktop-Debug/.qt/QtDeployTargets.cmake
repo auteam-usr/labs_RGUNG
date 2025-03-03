@@ -1,0 +1,2 @@
+set(__QT_DEPLOY_TARGET_PersonalOrganizer_FILE /home/user/PersonalOrganizer/build/Desktop-Debug/PersonalOrganizer)
+set(__QT_DEPLOY_TARGET_PersonalOrganizer_TYPE EXECUTABLE)
