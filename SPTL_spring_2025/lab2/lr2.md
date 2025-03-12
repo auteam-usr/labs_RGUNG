@@ -62,8 +62,17 @@
 
 ### Шаг 2. Настройка объектов.
 1. В **objectName** укажите **inputLineEdit** для QLineEdit.
+
+![](lab2_images/10.jpg)
+
 2. Аналогично настройте **processButton** и **resultLabel**.
+
+![](lab2_images/11.jpg)
+
 3. Измените свойство **text** у **QPushButton** и **QLabel**.
+
+![](lab2_images/12.jpg)
+
 4. Сохраните изменения **(Ctrl+S)**.
 
 ### Шаг 3. Реализация слота для обработки.
@@ -72,6 +81,9 @@
 private:
     void processText();
 ```
+
+![](lab2_images/13.jpg)
+
 В `mainwindow.cpp` реализуйте слот:
 ```cpp
 void MainWindow::processText() {
@@ -80,15 +92,27 @@ void MainWindow::processText() {
 }
 ```
 
+![](lab2_images/14.jpg)
+
 ### Шаг 4. Соединение сигналов и слотов.
 ```cpp
 connect(ui->processButton, &QPushButton::clicked, this, &MainWindow::processText);
 ```
 
+![](lab2_images/15.jpg)
+
 ### Шаг 5. Тестирование.
 1. Соберите приложение **(Ctrl+B)**.
+
+![](lab2_images/16.jpg)
+
 2. Запустите приложение **(Ctrl+R)**.
+
+![](lab2_images/17.jpg)
+
 3. Проверьте ввод текста и его обработку.
+
+![](lab2_images/18.jpg)
 
 ---
 ## ЧАСТЬ 2
@@ -104,10 +128,16 @@ connect(ui->processButton, &QPushButton::clicked, this, &MainWindow::processText
 private:
     void processVariant();
 ```
+
+![](lab2_images/19.jpg)
+
 Настроим соединение в конструкторе `mainwindow.cpp`:
 ```cpp
 connect(ui->processButton, &QPushButton::clicked, this, &MainWindow::processVariant);
 ```
+
+![](lab2_images/20.jpg)
+
 Реализация `processVariant()` в `mainwindow.cpp`:
 ```cpp
 #include <QDate>
@@ -148,10 +178,20 @@ void MainWindow::processVariant() {
 }
 ```
 
+![](lab2_images/21.jpg)
+
 ### Шаг 2. Тестирование.
 1. Проверка на **число**.
+
+![](lab2_images/22.jpg)
+
 2. Проверка на **дату**.
+
+![](lab2_images/23.jpg)
+
 3. Проверка на **строку**.
+
+![](lab2_images/24.jpg)
 
 ---
 ## ЧАСТЬ 3
@@ -161,6 +201,17 @@ void MainWindow::processVariant() {
 - Ознакомление с процессом создания сигналов и слотов.
 
 ### Шаг 1. Создание класса DataProcessor
+
+![](lab2_images/25.jpg)
+
+-ааааааа
+
+![](lab2_images/26.jpg)
+
+- бббббббб
+
+![](lab2_images/27.jpg)
+
 Файл `data_processor.h`:
 ```cpp
 #ifndef DATA_PROCESSOR_H
@@ -179,7 +230,14 @@ signals:
 #endif // DATA_PROCESSOR_H
 ```
 
+![](lab2_images/28.jpg)
+
 ### Шаг 2. Реализация обработки данных
+
+- фффффф
+
+![](lab2_images/29.jpg)
+
 Файл `data_processor.cpp`:
 ```cpp
 #include "data_processor.h"
@@ -189,6 +247,8 @@ void DataProcessor::processData(const QString &input) {
     emit dataProcessed(processedData);
 }
 ```
+
+![](lab2_images/30.jpg)
 
 ### Шаг 3. Интеграция в MainWindow
 Файл `mainwindow.h`:
@@ -219,6 +279,8 @@ private:
 #endif // MAINWINDOW_H
 ```
 
+![](lab2_images/31.jpg)
+
 Файл `mainwindow.cpp`:
 ```cpp
 #include "mainwindow.h"
@@ -245,3 +307,8 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent) {
 }
 ```
 
+![](lab2_images/32.jpg)
+
+- ццццц
+
+![](lab2_images/33.jpg)
