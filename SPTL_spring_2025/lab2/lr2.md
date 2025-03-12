@@ -25,11 +25,11 @@
 ### Шаг 1. Создание проекта и формы.
 1. Запустите **Qt Creator** и создайте новый проект "Приложение Qt Widgets".
 
-<img src="https://raw.githubusercontent.com/auteam-usr/labs_RGUNG/refs/heads/main/SPTL_spring_2025/lab2/lab2_images/01.jpg" alt="" style="margin-left: 20px; display: block;">
+![](lab2_images/01.jpg)
 
 2. Укажите название проекта **"laba2"** и выберите директорию для проекта.
 
-<img src="https://raw.githubusercontent.com/auteam-usr/labs_RGUNG/refs/heads/main/SPTL_spring_2025/lab2/lab2_images/02.jpg" alt="" style="margin-left: 20px; display: block;">
+![](lab2_images/02.jpg)
 
 3. Выберите систему сборки **CMake**.
 4. Оставьте информацию о классах по умолчанию.
