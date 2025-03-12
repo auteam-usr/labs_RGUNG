@@ -23,7 +23,7 @@
 - Использовать сигналы и слоты для реализации логики приложения.
 
 ### Шаг 1. Создание проекта и формы.
-1. Запустите **Qt Creator** и создайте новый проект "Приложение Qt Widgets".
+1. Запустите Qt Creator и создайте новый проект **"Приложение Qt Widgets"**.
 
 ![](lab2_images/01.jpg)
 
@@ -110,6 +110,7 @@ connect(ui->processButton, &QPushButton::clicked, this, &MainWindow::processText
 ![](lab2_images/18.jpg)
 
 ---
+
 ## ЧАСТЬ 2
 ### Использование QVariant для работы с различными типами данных
 
@@ -189,6 +190,7 @@ void MainWindow::processVariant() {
 ![](lab2_images/24.jpg)
 
 ---
+
 ## ЧАСТЬ 3
 ### Создание собственных сигналов и слотов
 
@@ -235,7 +237,7 @@ signals:
 
 ![](lab2_images/29.jpg)
 
-2.	В файле data_processor.cpp добавьте обработку данных.
+2.	В файле `data_processor.cpp` добавьте обработку данных.
 ```cpp
 #include "data_processor.h"
 
@@ -248,7 +250,7 @@ void DataProcessor::processData(const QString &input) {
 ![](lab2_images/30.jpg)
 
 ### Шаг 3. В главном окне приложения создайте экземпляр вашего класса и соедините его сигнал dataProcessed со слотом, который будет выводить полученные данные на форму.
-1.	Зайдите в класс mainwindow.h, который отвечает за интерфейс и обработку событий и добавьте основные объекты, такие как handleProcessedData(слот для вывода обработанных данных), onProcessButtonClicked(слот для обработки нажатия кнопки), QLineEdit(поле ввода), QLabel(поля вывода), QPushButton(кнопка), DataProcessor(экземпляр обработчика данных).
+1.	Зайдите в класс `mainwindow.h`, который отвечает за интерфейс и обработку событий и добавьте основные объекты, такие как **handleProcessedData**(слот для вывода обработанных данных), **onProcessButtonClicked**(слот для обработки нажатия кнопки), **QLineEdit**(поле ввода), **QLabel**(поля вывода), **QPushButton**(кнопка), **DataProcessor**(экземпляр обработчика данных).
 ```cpp
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
