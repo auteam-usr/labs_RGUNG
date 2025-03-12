@@ -61,22 +61,22 @@
 ![](lab2_images/09.jpg)
 
 ### Шаг 2. Настройка объектов.
-1. В **objectName** укажите **inputLineEdit** для QLineEdit.
+1. Выберите **QLineEdit** и в редакторе свойств найдите **objectName** в котором измините ему имя, например **inputLineEdit**.
 
 ![](lab2_images/10.jpg)
 
-2. Аналогично настройте **processButton** и **resultLabel**.
+2. Аналогично настройте имена для QPushButton и QLabel: **processButton** и **resultLabel**.
 
 ![](lab2_images/11.jpg)
 
-3. Измените свойство **text** у **QPushButton** и **QLabel**.
+3. Измените название QPushButton и QLabel. Нажмите на каждый объект и в редакторе свойств найдите свойство **text** в разделе **QAbstractButton**, в котором поменяйте текст на объекта.
 
 ![](lab2_images/12.jpg)
 
 4. Сохраните изменения **(Ctrl+S)**.
 
 ### Шаг 3. Реализация слота для обработки.
-В `mainwindow.h` добавьте слот:
+1.	Добавьте в `mainwindow.h` объявление вашего слота в секцию **private slots** или **public slots** (зависит от ваших требований к защите).
 ```cpp
 private:
     void processText();
@@ -84,17 +84,12 @@ private:
 
 ![](lab2_images/13.jpg)
 
-В `mainwindow.cpp` реализуйте слот:
-```cpp
-void MainWindow::processText() {
-    QString text = ui->inputLineEdit->text();
-    ui->resultLabel->setText(text.toUpper());
-}
-```
+2.	Далее перейдите в `mainwindow.cpp` и реализуйте этот слот, где будет производиться обработка текста из **QLineEdit**, например, преобразование в верхний регистр.
 
 ![](lab2_images/14.jpg)
 
 ### Шаг 4. Соединение сигналов и слотов.
+1.	В конструкторе `MainWindow`, соедините сигнал нажатия кнопки с вашим слотом с помощью следующей команды:
 ```cpp
 connect(ui->processButton, &QPushButton::clicked, this, &MainWindow::processText);
 ```
@@ -120,10 +115,10 @@ connect(ui->processButton, &QPushButton::clicked, this, &MainWindow::processText
 
 #### Цели задания:
 - Практика применения QVariant.
-- Разработка функции для обработки разнотипных данных.
+- Разработка функции для обработки и вывода разнотипных данных.
 
 ### Шаг 1. Реализация обработки QVariant.
-Добавьте слот в `mainwindow.h`:
+1.	Добавьте в `mainwindow.h` объявление вашего слота в секцию **private slots** или **public slots** (зависит от ваших требований к защите).
 ```cpp
 private:
     void processVariant();
@@ -131,14 +126,14 @@ private:
 
 ![](lab2_images/19.jpg)
 
-Настроим соединение в конструкторе `mainwindow.cpp`:
+2.	В конструкторе `MainWindow`, соедините сигнал нажатия кнопки с вашим слотом с помощью следующей команды:
 ```cpp
 connect(ui->processButton, &QPushButton::clicked, this, &MainWindow::processVariant);
 ```
 
 ![](lab2_images/20.jpg)
 
-Реализация `processVariant()` в `mainwindow.cpp`:
+3.	Далее перейдите в `mainwindow.cpp` и реализуйте этот слот, где будет производиться функция по условию задания.
 ```cpp
 #include <QDate>
 #include <QDebug>
@@ -198,21 +193,23 @@ void MainWindow::processVariant() {
 ### Создание собственных сигналов и слотов
 
 #### Цели задания:
-- Ознакомление с процессом создания сигналов и слотов.
+- Ознакомление с процессом создания и использования собственных сигналов и слотов.
 
-### Шаг 1. Создание класса DataProcessor
+### Шаг 1. Создайте новый класс, наследуя его от QObject. Добавьте в класс собственный сигнал, например, dataProcessed(QString data).
+
+1.	Добавьте новый класс.
 
 ![](lab2_images/25.jpg)
 
--ааааааа
+2.	Выберите класс с++.
 
 ![](lab2_images/26.jpg)
 
-- бббббббб
+3.	Дайте имя классу и завершите его добавления.
 
 ![](lab2_images/27.jpg)
 
-Файл `data_processor.h`:
+4.	Измените код в файле `data_processor.h`. Наследуйте его от QObject и добавьте сигнал с обработанными данными.
 ```cpp
 #ifndef DATA_PROCESSOR_H
 #define DATA_PROCESSOR_H
@@ -232,13 +229,13 @@ signals:
 
 ![](lab2_images/28.jpg)
 
-### Шаг 2. Реализация обработки данных
+### Шаг 2. Добавьте метод для обработки данных, который после обработки данных будет испускать сигнал dataProcessed с результатом обработки.
 
-- фффффф
+1.	Добавьте метод, который выполняет обработку данных.
 
 ![](lab2_images/29.jpg)
 
-Файл `data_processor.cpp`:
+2.	В файле data_processor.cpp добавьте обработку данных.
 ```cpp
 #include "data_processor.h"
 
@@ -250,8 +247,8 @@ void DataProcessor::processData(const QString &input) {
 
 ![](lab2_images/30.jpg)
 
-### Шаг 3. Интеграция в MainWindow
-Файл `mainwindow.h`:
+### Шаг 3. В главном окне приложения создайте экземпляр вашего класса и соедините его сигнал dataProcessed со слотом, который будет выводить полученные данные на форму.
+1.	Зайдите в класс mainwindow.h, который отвечает за интерфейс и обработку событий и добавьте основные объекты, такие как handleProcessedData(слот для вывода обработанных данных), onProcessButtonClicked(слот для обработки нажатия кнопки), QLineEdit(поле ввода), QLabel(поля вывода), QPushButton(кнопка), DataProcessor(экземпляр обработчика данных).
 ```cpp
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
@@ -281,7 +278,7 @@ private:
 
 ![](lab2_images/31.jpg)
 
-Файл `mainwindow.cpp`:
+### Шаг 4. Реализуйте логику вызова метода обработки данных, например, по нажатию кнопки в интерфейсе пользователя.
 ```cpp
 #include "mainwindow.h"
 #include <QVBoxLayout>
@@ -309,6 +306,6 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent) {
 
 ![](lab2_images/32.jpg)
 
-- ццццц
+2.	Проверка работы.
 
 ![](lab2_images/33.jpg)
