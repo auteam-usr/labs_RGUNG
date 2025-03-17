@@ -1,334 +1,562 @@
-# Лабораторная работа №2
-## Работа с базовыми типами, реализация сигналов и слотов
+![image](https://github.com/user-attachments/assets/148c359d-b428-4f47-a8f5-61008b939fd6)# ЛАБОРАТОРНАЯ РАБОТА №3
 
----
+## РАЗРАБОТКА ИНТЕРФЕЙСА С ИСПОЛЬЗОВАНИЕМ СТАНДАРТНЫХ ВИДЖЕТОВ
 
 ### Цель работы:
-- Освоение механизма сигналов и слотов в Qt.
-- Практика работы с базовыми типами данных Qt.
+На основе знаний, полученных в предыдущих лабораторных работах, разработать приложение "Книжный каталог" с графическим интерфейсом пользователя, используя стандартные виджеты Qt. Приложение должно позволять добавлять, просматривать, редактировать и удалять информацию о книгах.
 
 ---
 
-## Формирование отчета
-В отчёте по лабораторной работе необходимо кратко изложить описание выполненных действий с использованием соответствующих команд, приложить скриншоты настроек и результатов тестов для наглядности. Также следует указать на возникшие в процессе работы проблемы и описать найденные способы их решения. В случае наличия контрольных вопросов, ответы на них должны быть интегрированы в текст.
+## ФОРМИРОВАНИЕ ОТЧЕТА
+В отчёте необходимо кратко изложить описание выполненных действий, приложить скриншоты настроек и результатов тестов. Также следует указать на возникшие в процессе работы проблемы и найденные способы их решения. Ответы на контрольные вопросы должны быть интегрированы в текст.
 
 ---
 
-## ЧАСТЬ 1
-### Работа с QString и сигналами/слотами
+## ЧАСТЬ 1: Разработка интерфейса приложения
 
-#### Цели задания:
-- Изучить базовые операции с QString.
-- Реализовать простую форму для ввода текста и кнопку для его обработки.
-- Использовать сигналы и слоты для реализации логики приложения.
-
-### Шаг 1. Создание проекта и формы.
+### Шаг 1. Инициализация проекта
 1. Запустите Qt Creator и создайте новый проект **"Приложение Qt Widgets"**.
 
-<img src="https://raw.githubusercontent.com/auteam-usr/labs_RGUNG/refs/heads/qt/SPTL_spring_2025/lab2/lab2_images/01.jpg" alt="" style="margin-left: 20px; display: block;">  
+![](lab3_images/01.jpg)
 
-2. Укажите название проекта **"laba2"** и выберите директорию для проекта.
+2. Укажите название проекта **"BookCatalog"** и выберите директорию.
 
-<img src="https://raw.githubusercontent.com/auteam-usr/labs_RGUNG/refs/heads/qt/SPTL_spring_2025/lab2/lab2_images/02.jpg" alt="" style="margin-left: 20px; display: block;">  
+![](lab3_images/02.jpg)
 
 3. Выберите систему сборки **CMake**.
 
-<img src="https://raw.githubusercontent.com/auteam-usr/labs_RGUNG/refs/heads/qt/SPTL_spring_2025/lab2/lab2_images/03.jpg" alt="" style="margin-left: 20px; display: block;">  
+![](lab3_images/03.jpg)
 
-4. Оставьте информацию о классах по умолчанию.
+4. Оставьте данные о классах по умолчанию.
 
-<img src="https://raw.githubusercontent.com/auteam-usr/labs_RGUNG/refs/heads/qt/SPTL_spring_2025/lab2/lab2_images/04.jpg" alt="" style="margin-left: 20px; display: block;">  
+![](lab3_images/04.jpg)
 
-5. Файл перевода можно оставить пустым.
+5. Файл перевода оставьте пустым.
 
-<img src="https://raw.githubusercontent.com/auteam-usr/labs_RGUNG/refs/heads/qt/SPTL_spring_2025/lab2/lab2_images/05.jpg" alt="" style="margin-left: 20px; display: block;">  
+![](lab3_images/05.jpg)
 
-6. Выберите комплект для сборки (должен быть автоматически определён).
+6. Выберите комплект для сборки (должен быть определен автоматически).
 
-<img src="https://raw.githubusercontent.com/auteam-usr/labs_RGUNG/refs/heads/qt/SPTL_spring_2025/lab2/lab2_images/06.jpg" alt="" style="margin-left: 20px; display: block;">  
+![](lab3_images/06.jpg)
 
-7. Завершите создание проекта, нажав **"Завершить"**.
-8. Добавьте на форму **QLineEdit** для ввода текста.
+7. Завершите создание проекта, нажав "Завершить".
 
-<img src="https://raw.githubusercontent.com/auteam-usr/labs_RGUNG/refs/heads/qt/SPTL_spring_2025/lab2/lab2_images/07.jpg" alt="" style="margin-left: 20px; display: block;">  
+### Шаг 2. Разработка интерфейса
+1. Откройте `mainwindow.ui` в редакторе форм **Qt Creator**.
 
-9. Добавьте **QPushButton** для обработки текста.
+![](lab3_images/07.jpg)
 
-<img src="https://raw.githubusercontent.com/auteam-usr/labs_RGUNG/refs/heads/qt/SPTL_spring_2025/lab2/lab2_images/08.jpg" alt="" style="margin-left: 20px; display: block;">  
+2. Добавьте виджеты:
+   - **QTableView** – для отображения каталога книг.
 
-10. Добавьте **QLabel** для вывода результата.
+![](lab3_images/08.jpg)
 
-<img src="https://raw.githubusercontent.com/auteam-usr/labs_RGUNG/refs/heads/qt/SPTL_spring_2025/lab2/lab2_images/09.jpg" alt="" style="margin-left: 20px; display: block;">  
+   - **QPushButton** – кнопки "Добавить", "Удалить", "Редактировать".
 
-### Шаг 2. Настройка объектов.
-1. Выберите **QLineEdit** и в редакторе свойств найдите **objectName** в котором измините ему имя, например **inputLineEdit**.
+![](lab3_images/09.jpg)
 
-<img src="https://raw.githubusercontent.com/auteam-usr/labs_RGUNG/refs/heads/qt/SPTL_spring_2025/lab2/lab2_images/10.jpg" alt="" style="margin-left: 20px; display: block;">  
+Нажмите на каждую кнопку и в редакторе свойств найдите свойство **text** в разделе **QAbstractButton**, в котором поменяйте текст на кнопке.
+   
+![](lab3_images/10.jpg)
 
-2. Аналогично настройте имена для QPushButton и QLabel: **processButton** и **resultLabel**.
+Также поменяйте название объектов для кнопок.
 
-<img src="https://raw.githubusercontent.com/auteam-usr/labs_RGUNG/refs/heads/qt/SPTL_spring_2025/lab2/lab2_images/11.jpg" alt="" style="margin-left: 20px; display: block;">  
+![](lab3_images/11.jpg)
 
-3. Измените название QPushButton и QLabel. Нажмите на каждый объект и в редакторе свойств найдите свойство **text** в разделе **QAbstractButton**, в котором поменяйте текст на объекта.
+   - **QMenuBar** – с пунктами меню "Импорт", "Экспорт", "Выход".
+Для этого в меню, где написано «Пишите здесь» нажмите два раза по этому значку и напишите «Действия», нажмите Enter.
 
-<img src="https://raw.githubusercontent.com/auteam-usr/labs_RGUNG/refs/heads/qt/SPTL_spring_2025/lab2/lab2_images/12.jpg" alt="" style="margin-left: 20px; display: block;">  
+![](lab3_images/12.jpg)
 
-4. Сохраните изменения **(Ctrl+S)**.
+Добавьте пункты меню «Импорт», «Экспорт», «Выход». Для этого нажмите на значок «Действия» и добавьте все эти пункты меню.
 
-### Шаг 3. Реализация слота для обработки.
-1.	Добавьте в `mainwindow.h` объявление вашего слота в секцию **private slots** или **public slots** (зависит от ваших требований к защите).
-```cpp
-private:
-    void processText();
-```
+![](lab3_images/13.jpg)
 
-<img src="https://raw.githubusercontent.com/auteam-usr/labs_RGUNG/refs/heads/qt/SPTL_spring_2025/lab2/lab2_images/13.jpg" alt="" style="margin-left: 20px; display: block;">  
+Должно получится как на картинке.
 
-2.	Далее перейдите в `mainwindow.cpp` и реализуйте этот слот, где будет производиться обработка текста из **QLineEdit**, например, преобразование в верхний регистр.
+![](lab3_images/14.jpg)
 
-```cpp
-void MainWindow::processText() {
-    QString inputText = ui->inputLineEdit->text();
-    QString processedText = inputText.toUpper();
-    ui->resultLabel->setText(processedText);
-}
-```
+Измените иконки этих пунктов, для этого нужно создать файл ресурсов Qt, который будет называться «icons».
 
-<img src="https://raw.githubusercontent.com/auteam-usr/labs_RGUNG/refs/heads/qt/SPTL_spring_2025/lab2/lab2_images/14.jpg" alt="" style="margin-left: 20px; display: block;">  
+![](lab3_images/15.jpg)
 
-### Шаг 4. Соединение сигналов и слотов.
-1.	В конструкторе `MainWindow`, соедините сигнал нажатия кнопки с вашим слотом с помощью следующей команды:
-```cpp
-connect(ui->processButton, &QPushButton::clicked, this, &MainWindow::processText);
-```
+Далее нужно добавить префикс.
 
-<img src="https://raw.githubusercontent.com/auteam-usr/labs_RGUNG/refs/heads/qt/SPTL_spring_2025/lab2/lab2_images/15.jpg" alt="" style="margin-left: 20px; display: block;">  
+![](lab3_images/16.jpg)
 
-### Шаг 5. Тестирование.
-1. Соберите приложение **(Ctrl+B)**.
+Создайте в папке проекта папку img, куда поместите 3 png картинки для иконок. Скачать их можно с сайта **flaticon**. 
 
-<img src="https://raw.githubusercontent.com/auteam-usr/labs_RGUNG/refs/heads/qt/SPTL_spring_2025/lab2/lab2_images/16.jpg" alt="" style="margin-left: 20px; display: block;">  
+![](lab3_images/17.jpg)
 
-2. Запустите приложение **(Ctrl+R)**.
+Добавьте эти иконки в файл ресурсов Qt. 
 
-<img src="https://raw.githubusercontent.com/auteam-usr/labs_RGUNG/refs/heads/qt/SPTL_spring_2025/lab2/lab2_images/17.jpg" alt="" style="margin-left: 20px; display: block;">  
+![](lab3_images/18.jpg)
 
-3. Проверьте ввод текста и его обработку.
+Перейдите в `mainwindow.ui` и для каждого пункта прикрепите соответствующие иконки. Для этого в редакторе действий нажмите два раза на определенный пункт и поместите в него иконку. Нажимая **Choose Resource** выберите файлы из папки img.
 
-<img src="https://raw.githubusercontent.com/auteam-usr/labs_RGUNG/refs/heads/qt/SPTL_spring_2025/lab2/lab2_images/18.jpg" alt="" style="margin-left: 20px; display: block;">  
+![](lab3_images/19.jpg)
 
----
+Должно получится как на картинке.
 
-## ЧАСТЬ 2
-### Использование QVariant для работы с различными типами данных
+![](lab3_images/20.jpg)
 
-#### Цели задания:
-- Практика применения QVariant.
-- Разработка функции для обработки и вывода разнотипных данных.
+### Шаг 3. Настройка QTableView и функционала кнопок
+- Настроить модель данных (**QStandardItemModel**) для хранения информации о книгах (автор, название, год, жанр).
+- Добавить функциональность кнопок:
+  - **Добавление книги** – открывает диалоговое окно для ввода данных.
+  - **Удаление книги** – удаляет выбранную книгу.
+  - **Редактирование книги** – редактирует выбранную запись.
 
-### Шаг 1. Реализация обработки QVariant.
-1.	Добавьте в `mainwindow.h` объявление вашего слота в секцию **private slots** или **public slots** (зависит от ваших требований к защите).
-```cpp
-private:
-    void processVariant();
-```
-
-<img src="https://raw.githubusercontent.com/auteam-usr/labs_RGUNG/refs/heads/qt/SPTL_spring_2025/lab2/lab2_images/19.jpg" alt="" style="margin-left: 20px; display: block;">  
-
-2.	В конструкторе `MainWindow`, соедините сигнал нажатия кнопки с вашим слотом с помощью следующей команды:
-```cpp
-connect(ui->processButton, &QPushButton::clicked, this, &MainWindow::processVariant);
-```
-
-<img src="https://raw.githubusercontent.com/auteam-usr/labs_RGUNG/refs/heads/qt/SPTL_spring_2025/lab2/lab2_images/20.jpg" alt="" style="margin-left: 20px; display: block;">  
-
-3.	Далее перейдите в `mainwindow.cpp` и реализуйте этот слот, где будет производиться функция по условию задания.
-```cpp
-#include <QDate>
-#include <QDebug>
-
-void MainWindow::processVariant() {
-    QString inputText = ui->inputLineEdit->text();
-    QVariant var;
-    bool isNumber;
-    int intValue = inputText.toInt(&isNumber);
-
-    QDate dateValue = QDate::fromString(inputText, "dd.MM.yyyy");
-    if (!dateValue.isValid()) {
-        dateValue = QDate::fromString(inputText, "dd-MM-yyyy");
-    }
-    if (!dateValue.isValid()) {
-        dateValue = QDate::fromString(inputText, "dd/MM/yyyy");
-    }
-
-    if (isNumber) {
-        var = intValue;
-    } else if (dateValue.isValid()) {
-        var = dateValue;
-    } else {
-        var = inputText;
-    }
-
-    QString resultText;
-    if (var.type() == QVariant::Int) {
-        resultText = "Число: " + QString::number(var.toInt() * 2);
-    } else if (var.type() == QVariant::Date) {
-        resultText = "Дата: " + var.toDate().toString("dd.MM.yyyy");
-    } else {
-        resultText = "Строка: " + var.toString();
-    }
-
-    ui->resultLabel->setText(resultText);
-}
-```
-
-<img src="https://raw.githubusercontent.com/auteam-usr/labs_RGUNG/refs/heads/qt/SPTL_spring_2025/lab2/lab2_images/21.jpg" alt="" style="margin-left: 20px; display: block;">  
-
-### Шаг 2. Тестирование.
-1. Проверка на **число**.
-
-<img src="https://raw.githubusercontent.com/auteam-usr/labs_RGUNG/refs/heads/qt/SPTL_spring_2025/lab2/lab2_images/22.jpg" alt="" style="margin-left: 20px; display: block;">  
-
-2. Проверка на **дату**.
-
-<img src="https://raw.githubusercontent.com/auteam-usr/labs_RGUNG/refs/heads/qt/SPTL_spring_2025/lab2/lab2_images/23.jpg" alt="" style="margin-left: 20px; display: block;">  
-
-3. Проверка на **строку**.
-
-<img src="https://raw.githubusercontent.com/auteam-usr/labs_RGUNG/refs/heads/qt/SPTL_spring_2025/lab2/lab2_images/24.jpg" alt="" style="margin-left: 20px; display: block;">  
-
----
-
-## ЧАСТЬ 3
-### Создание собственных сигналов и слотов
-
-#### Цели задания:
-- Ознакомление с процессом создания и использования собственных сигналов и слотов.
-
-### Шаг 1. Создайте новый класс, наследуя его от QObject. Добавьте в класс собственный сигнал, например, dataProcessed(QString data).
-
-1.	Добавьте новый класс.
-
-<img src="https://raw.githubusercontent.com/auteam-usr/labs_RGUNG/refs/heads/qt/SPTL_spring_2025/lab2/lab2_images/25.jpg" alt="" style="margin-left: 20px; display: block;">  
-
-2.	Выберите класс с++.
-
-<img src="https://raw.githubusercontent.com/auteam-usr/labs_RGUNG/refs/heads/qt/SPTL_spring_2025/lab2/lab2_images/26.jpg" alt="" style="margin-left: 20px; display: block;">  
-
-3.	Дайте имя классу и завершите его добавления.
-
-<img src="https://raw.githubusercontent.com/auteam-usr/labs_RGUNG/refs/heads/qt/SPTL_spring_2025/lab2/lab2_images/27.jpg" alt="" style="margin-left: 20px; display: block;">  
-
-4.	Измените код в файле `data_processor.h`. Наследуйте его от QObject и добавьте сигнал с обработанными данными.
-```cpp
-#ifndef DATA_PROCESSOR_H
-#define DATA_PROCESSOR_H
-
-#include <QObject>
-
-class DataProcessor : public QObject {
-    Q_OBJECT
-public:
-    explicit DataProcessor(QObject *parent = nullptr) : QObject(parent) {}
-signals:
-    void dataProcessed(const QString &result);
-};
-
-#endif // DATA_PROCESSOR_H
-```
-
-<img src="https://raw.githubusercontent.com/auteam-usr/labs_RGUNG/refs/heads/qt/SPTL_spring_2025/lab2/lab2_images/28.jpg" alt="" style="margin-left: 20px; display: block;">  
-
-### Шаг 2. Добавьте метод для обработки данных, который после обработки данных будет испускать сигнал dataProcessed с результатом обработки.
-
-1.	Добавьте метод, который выполняет обработку данных.
-
-```cpp
-public slots:
-    void processData(const QString &input);
-```
-
-<img src="https://raw.githubusercontent.com/auteam-usr/labs_RGUNG/refs/heads/qt/SPTL_spring_2025/lab2/lab2_images/29.jpg" alt="" style="margin-left: 20px; display: block;">  
-
-2.	В файле `data_processor.cpp` добавьте обработку данных.
-```cpp
-#include "data_processor.h"
-
-void DataProcessor::processData(const QString &input) {
-    QString processedData = "Обработано: " + input;
-    emit dataProcessed(processedData);
-}
-```
-
-<img src="https://raw.githubusercontent.com/auteam-usr/labs_RGUNG/refs/heads/qt/SPTL_spring_2025/lab2/lab2_images/30.jpg" alt="" style="margin-left: 20px; display: block;">  
-
-### Шаг 3. В главном окне приложения создайте экземпляр вашего класса и соедините его сигнал dataProcessed со слотом, который будет выводить полученные данные на форму.
-1.	Зайдите в класс `mainwindow.h`, который отвечает за интерфейс и обработку событий и добавьте основные объекты, такие как **handleProcessedData**(слот для вывода обработанных данных), **onProcessButtonClicked**(слот для обработки нажатия кнопки), **QLineEdit**(поле ввода), **QLabel**(поля вывода), **QPushButton**(кнопка), **DataProcessor**(экземпляр обработчика данных).
+#### Код `mainwindow.h`
 ```cpp
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
-
 #include <QMainWindow>
-#include <QPushButton>
-#include <QLineEdit>
-#include <QLabel>
-#include "data_processor.h"
+#include <QStandardItemModel>
+QT_BEGIN_NAMESPACE
+namespace Ui { class MainWindow; }
+QT_END_NAMESPACE
 
-class MainWindow : public QMainWindow {
+class MainWindow : public QMainWindow
+{
     Q_OBJECT
-public:
-    explicit MainWindow(QWidget *parent = nullptr);
-private slots:
-    void handleProcessedData(const QString &data);
-    void onProcessButtonClicked();
-private:
-    QLineEdit *inputField;
-    QLabel *outputLabel;
-    QPushButton *processButton;
-    DataProcessor *processor;
-};
 
+public:
+    MainWindow(QWidget *parent = nullptr);
+    ~MainWindow();
+
+private slots:
+    void addBook();
+    void editBook();
+    void removeBook();
+
+private:
+    Ui::MainWindow *ui;
+    QStandardItemModel *model;
+    void setupModel();
+};
 #endif // MAINWINDOW_H
 ```
 
-<img src="https://raw.githubusercontent.com/auteam-usr/labs_RGUNG/refs/heads/qt/SPTL_spring_2025/lab2/lab2_images/31.jpg" alt="" style="margin-left: 20px; display: block;">  
+![](lab3_images/21.jpg)
 
-### Шаг 4. Реализуйте логику вызова метода обработки данных, например, по нажатию кнопки в интерфейсе пользователя.
+#### Код `mainwindow.cpp`
 ```cpp
 #include "mainwindow.h"
-#include <QVBoxLayout>
-#include <QWidget>
+#include "./ui_mainwindow.h"
+#include <QInputDialog>
+#include <QMessageBox>
 
-MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent) {
-    QWidget *centralWidget = new QWidget(this);
-    setCentralWidget(centralWidget);
+MainWindow::MainWindow(QWidget *parent)
+    : QMainWindow(parent)
+    , ui(new Ui::MainWindow)
+{
+    ui->setupUi(this);
+    setupModel();
 
-    inputField = new QLineEdit(this);
-    processButton = new QPushButton("Обработать", this);
-    outputLabel = new QLabel("Результат: ", this);
-
-    QVBoxLayout *layout = new QVBoxLayout(centralWidget);
-    layout->addWidget(inputField);
-    layout->addWidget(processButton);
-    layout->addWidget(outputLabel);
-
-    processor = new DataProcessor(this);
-
-    connect(processor, &DataProcessor::dataProcessed, this, &MainWindow::handleProcessedData);
-    connect(processButton, &QPushButton::clicked, this, &MainWindow::onProcessButtonClicked);
-}
-void MainWindow::handleProcessedData(const QString &data) {
-    outputLabel->setText("Результат: " + data);
+        connect(ui->btnAdd, &QPushButton::clicked, this, &MainWindow::addBook);
+        connect(ui->btnEdit, &QPushButton::clicked, this, &MainWindow::editBook);
+        connect(ui->btnRemove, &QPushButton::clicked, this, &MainWindow::removeBook);
 }
 
-void MainWindow::onProcessButtonClicked() {
-    QString inputData = inputField->text();
-    processor->processData(inputData);
+MainWindow::~MainWindow()
+{
+    delete ui;
+}
+
+void MainWindow::setupModel()
+{
+    model = new QStandardItemModel(this);
+    model->setColumnCount(4);
+    model->setHeaderData(0, Qt::Horizontal, "Автор");
+    model->setHeaderData(1, Qt::Horizontal, "Название");
+    model->setHeaderData(2, Qt::Horizontal, "Год");
+    model->setHeaderData(3, Qt::Horizontal, "Жанр");
+
+    ui->tableView->setModel(model);
+}
+
+void MainWindow::addBook()
+{
+    QString author = QInputDialog::getText(this, "Добавить книгу", "Автор:");
+    if (author.isEmpty()) return;
+
+    QString title = QInputDialog::getText(this, "Добавить книгу", "Название:");
+    if (title.isEmpty()) return;
+
+    int year = QInputDialog::getInt(this, "Добавить книгу", "Год издания:", 2000, 0, 2100);
+
+    QString genre = QInputDialog::getText(this, "Добавить книгу", "Жанр:");
+    if (genre.isEmpty()) return;
+
+    QList<QStandardItem *> rowItems;
+    rowItems << new QStandardItem(author)
+             << new QStandardItem(title)
+             << new QStandardItem(QString::number(year))
+             << new QStandardItem(genre);
+
+    model->appendRow(rowItems);
+}
+
+void MainWindow::editBook()
+{
+    QModelIndex index = ui->tableView->currentIndex();
+    if (!index.isValid()) {
+        QMessageBox::warning(this, "Ошибка", "Выберите книгу для редактирования");
+        return;
+    }
+
+    QString newText = QInputDialog::getText(this, "Редактировать книгу", "Новое значение:", QLineEdit::Normal, model->item(index.row(), index.column())->text());
+    if (!newText.isEmpty()) {
+        model->setItem(index.row(), index.column(), new QStandardItem(newText));
+    }
+}
+
+void MainWindow::removeBook()
+{
+    QModelIndex index = ui->tableView->currentIndex();
+    if (!index.isValid()) {
+        QMessageBox::warning(this, "Ошибка", "Выберите книгу для удаления");
+        return;
+    }
+
+    model->removeRow(index.row());
 }
 ```
 
-<img src="https://raw.githubusercontent.com/auteam-usr/labs_RGUNG/refs/heads/qt/SPTL_spring_2025/lab2/lab2_images/32.jpg" alt="" style="margin-left: 20px; display: block;">  
+![](lab3_images/22.jpg)
 
-2.	Проверка работы.
+---
 
-<img src="https://raw.githubusercontent.com/auteam-usr/labs_RGUNG/refs/heads/qt/SPTL_spring_2025/lab2/lab2_images/33.jpg" alt="" style="margin-left: 20px; display: block;">  
+## ЧАСТЬ 2: Реализация поиска по каталогу
+
+### Шаг 1. Включите в интерфейс строку поиска (QLineEdit) и кнопку "Поиск"
+- **QLineEdit** (`searchLineEdit`) – ввод поискового запроса.
+- **QPushButton** (`searchButton`) – кнопка поиска.
+
+![](lab3_images/23.jpg)
+
+### Шаг 2. Реализуйте фильтрацию отображаемых записей в QTableView, по ключевым словам, введенным в строку поиска.
+#### Обновленный `mainwindow.h`
+```cpp
+#ifndef MAINWINDOW_H
+#define MAINWINDOW_H
+#include <QMainWindow>
+#include <QStandardItemModel>
+#include <QSortFilterProxyModel>
+
+QT_BEGIN_NAMESPACE
+namespace Ui { class MainWindow; }
+QT_END_NAMESPACE
+
+class MainWindow : public QMainWindow
+{
+    Q_OBJECT
+
+public:
+    MainWindow(QWidget *parent = nullptr);
+    ~MainWindow();
+
+private slots:
+    void addBook();
+    void editBook();
+    void removeBook();
+    void searchBooks();
+
+private:
+    Ui::MainWindow *ui;
+    QStandardItemModel *model;
+    QSortFilterProxyModel *proxyModel;
+    void setupModel();
+    void setupSearch();
+};
+#endif // MAINWINDOW_H
+```
+
+![](lab3_images/24.jpg)
+
+#### Добавляем поддержку поиска в `mainwindow.cpp`
+```cpp
+#include "mainwindow.h"
+#include "./ui_mainwindow.h"
+#include <QInputDialog>
+#include <QMessageBox>
+#include <QFileDialog>
+#include <QTextStream>
+
+MainWindow::MainWindow(QWidget *parent)
+    : QMainWindow(parent)
+    , ui(new Ui::MainWindow)
+{
+    ui->setupUi(this);
+    setupModel();
+    setupSearch();
+
+    connect(ui->btnAdd, &QPushButton::clicked, this, &MainWindow::addBook);
+    connect(ui->btnEdit, &QPushButton::clicked, this, &MainWindow::editBook);
+    connect(ui->btnRemove, &QPushButton::clicked, this, &MainWindow::removeBook);
+    connect(ui->searchButton, &QPushButton::clicked, this, &MainWindow::searchBooks);
+}
+
+MainWindow::~MainWindow()
+{
+    delete ui;
+}
+
+void MainWindow::setupModel()
+{
+    model = new QStandardItemModel(this);
+    model->setColumnCount(4);
+    model->setHeaderData(0, Qt::Horizontal, "Автор");
+    model->setHeaderData(1, Qt::Horizontal, "Название");
+    model->setHeaderData(2, Qt::Horizontal, "Год");
+    model->setHeaderData(3, Qt::Horizontal, "Жанр");
+
+    proxyModel = new QSortFilterProxyModel(this);
+    proxyModel->setSourceModel(model);
+    proxyModel->setFilterCaseSensitivity(Qt::CaseInsensitive); 
+    proxyModel->setFilterKeyColumn(-1);
+
+    ui->tableView->setModel(proxyModel);
+}
+
+void MainWindow::addBook()
+{
+    QString author = QInputDialog::getText(this, "Добавить книгу", "Автор:");
+    if (author.isEmpty()) return;
+
+    QString title = QInputDialog::getText(this, "Добавить книгу", "Название:");
+    if (title.isEmpty()) return;
+
+    int year = QInputDialog::getInt(this, "Добавить книгу", "Год издания:", 2000, 0, 2100);
+
+    QString genre = QInputDialog::getText(this, "Добавить книгу", "Жанр:");
+    if (genre.isEmpty()) return;
+
+    QList<QStandardItem *> rowItems;
+    rowItems << new QStandardItem(author)
+             << new QStandardItem(title)
+             << new QStandardItem(QString::number(year))
+             << new QStandardItem(genre);
+
+    model->appendRow(rowItems);
+}
+
+void MainWindow::editBook()
+{
+    QModelIndex index = ui->tableView->currentIndex();
+    if (!index.isValid()) {
+        QMessageBox::warning(this, "Ошибка", "Выберите книгу для редактирования");
+        return;
+    }
+
+    QString newText = QInputDialog::getText(this, "Редактировать книгу", "Новое значение:", QLineEdit::Normal, model->item(index.row(), index.column())->text());
+    if (!newText.isEmpty()) {
+        model->setItem(index.row(), index.column(), new QStandardItem(newText));
+    }
+}
+
+void MainWindow::removeBook()
+{
+    QModelIndex index = ui->tableView->currentIndex();
+    if (!index.isValid()) {
+        QMessageBox::warning(this, "Ошибка", "Выберите книгу для удаления");
+        return;
+    }
+
+    model->removeRow(index.row());
+}
+
+void MainWindow::setupSearch()
+{
+}
+
+void MainWindow::searchBooks()
+{
+    QString searchText = ui->searchLineEdit->text();
+    proxyModel->setFilterFixedString(searchText);
+}
+```
+
+![](lab3_images/25.jpg)
+
+![](lab3_images/26.jpg)
+
+---
+
+## ЧАСТЬ 3: Импорт и экспорт каталога
+### Реализуйте возможность сохранения каталога книг в файл и загрузки из файла через пункты меню в QMenuBar.
+
+Используйте форматы файлов, такие как CSV или JSON, для хранения данных.
+Измените названия объектов для пунктов.
+
+![](lab3_images/27.jpg)
+
+#### Добавьте объявления слота для экспорта и импорта CSV в `mainwindow.h`
+```cpp
+private slots:
+    void importCSV();
+    void exportCSV();
+```
+
+![](lab3_images/28.jpg)
+
+#### Добавьте код для обработки пунктов экспорта, импорта и выхода в `mainwindow.cpp`
+
+Для экспорта. 
+
+```cpp
+#include <QFileDialog> 
+#include <QTextStream>
+void MainWindow::exportCSV()
+{
+    QString fileName = QFileDialog::getSaveFileName(this, "Экспорт в CSV", "", "CSV Files (*.csv)");
+    if (fileName.isEmpty()) {
+
+        return;
+    }
+
+    if (!fileName.endsWith(".csv", Qt::CaseInsensitive)) {
+        fileName += ".csv";
+    }
+
+    QFile file(fileName);
+    if (!file.open(QIODevice::WriteOnly | QIODevice::Text)) {
+        QMessageBox::warning(this, "Ошибка", "Не удалось сохранить файл");
+        return;
+    }
+
+    QTextStream out(&file);
+
+    for (int row = 0; row < model->rowCount(); ++row) {
+        QStringList fields;
+        for (int col = 0; col < model->columnCount(); ++col) {
+            QString text = model->item(row, col)->text();
+            text.replace("\"", "\"\"");  
+            fields.append('"' + text + '"');
+        }
+        out << fields.join(",") << "\n";
+    }
+
+    file.close();
+    QMessageBox::information(this, "Экспорт", "Файл сохранён успешно!");
+}
+```
+
+![](lab3_images/29.jpg)
+
+Для импорта 
+
+```cpp
+void MainWindow::importCSV()
+{
+    QString fileName = QFileDialog::getOpenFileName(this, "Импорт CSV", "", "CSV Files (*.csv)");
+        if (fileName.isEmpty()) {
+
+            return;
+        }
+
+        QFile file(fileName);
+        if (!file.open(QIODevice::ReadOnly | QIODevice::Text)) {
+            QMessageBox::warning(this, "Ошибка", "Не удалось открыть файл");
+            return;
+        }
+
+        QTextStream in(&file);
+        model->clear();
+        setupModel();
+
+        int rowCount = 0;
+        while (!in.atEnd()) {
+            QString line = in.readLine();
+            QStringList fields = line.split(",");
+
+            if (fields.size() != 4) {  
+                continue;
+            }
+
+            QList<QStandardItem *> rowItems;
+            for (const QString &field : fields)
+                rowItems.append(new QStandardItem(field.trimmed()));
+
+            model->appendRow(rowItems);
+            rowCount++;
+        }
+
+        file.close();
+
+        if (rowCount == 0) {
+            QMessageBox::information(this, "Импорт CSV", "Файл загружен, но он пуст.");
+        } else {
+            QMessageBox::information(this, "Импорт CSV", "Файл успешно загружен: " + fileName);
+        }
+}
+```
+
+![](lab3_images/30.jpg)
+
+Соедините сигналы наших пунктов
+
+```cpp
+    connect(ui->actionImportCSV, &QAction::triggered, this, &MainWindow::importCSV);
+    connect(ui->actionExportCSV, &QAction::triggered, this, &MainWindow::exportCSV);
+    connect(ui->actionExit, &QAction::triggered, this, &QApplication::quit);
+```
+
+![](lab3_images/31.jpg)
+
+---
+
+## ОЖИДАЕМЫЕ РЕЗУЛЬТАТЫ
+К завершению работы над лабораторной у вас должно получиться приложение, позволяющее эффективно управлять каталогом книг. Пользователь может добавлять новые книги, удалять и редактировать существующие записи, а также искать книги по названию или автору. Дополнительно реализованы функции импорта и экспорта каталога, что делает приложение полнофункциональным инструментом для ведения книжного каталога.
+
+1. Первоначальное окно
+
+![](lab3_images/32.jpg)
+
+2. Добавление информации о книге
+
+![](lab3_images/33.jpg)
+
+![](lab3_images/34.jpg)
+
+![](lab3_images/35.jpg)
+
+![](lab3_images/36.jpg)
+
+![](lab3_images/37.jpg)
+
+3. Редактирование
+
+![](lab3_images/38.jpg)
+
+![](lab3_images/39.jpg)
+
+![](lab3_images/40.jpg)
+
+4.Поиск
+
+![](lab3_images/41.jpg)
+
+![](lab3_images/42.jpg)
+
+5. Экспорт
+
+![](lab3_images/43.jpg)
+
+![](lab3_images/44.jpg)
+
+![](lab3_images/45.jpg)
+
+6. Импорт
+
+![](lab3_images/46.jpg)
+
+![](lab3_images/47.jpg)
+
+![](lab3_images/48.jpg)
+
+---
+
+### Приложение "Книжный каталог" завершено!
+
