@@ -17,88 +17,88 @@
 ### Шаг 1. Инициализация проекта
 1. Запустите Qt Creator и создайте новый проект **"Приложение Qt Widgets"**.
 
-![](lab3_images/01.jpg)
+![](lab3_images/01.jpg)  
 
 2. Укажите название проекта **"BookCatalog"** и выберите директорию.
 
-![](lab3_images/02.jpg)
+![](lab3_images/02.jpg)  
 
 3. Выберите систему сборки **CMake**.
 
-![](lab3_images/03.jpg)
+![](lab3_images/03.jpg)  
 
 4. Оставьте данные о классах по умолчанию.
 
-![](lab3_images/04.jpg)
+![](lab3_images/04.jpg)  
 
 5. Файл перевода оставьте пустым.
 
-![](lab3_images/05.jpg)
+![](lab3_images/05.jpg)  
 
 6. Выберите комплект для сборки (должен быть определен автоматически).
 
-![](lab3_images/06.jpg)
+![](lab3_images/06.jpg)  
 
 7. Завершите создание проекта, нажав "Завершить".
 
 ### Шаг 2. Разработка интерфейса
 1. Откройте `mainwindow.ui` в редакторе форм **Qt Creator**.
 
-![](lab3_images/07.jpg)
+![](lab3_images/07.jpg)  
 
 2. Добавьте виджеты:
    - **QTableView** – для отображения каталога книг.
 
-![](lab3_images/08.jpg)
+![](lab3_images/08.jpg)  
 
    - **QPushButton** – кнопки "Добавить", "Удалить", "Редактировать".
 
-![](lab3_images/09.jpg)
+![](lab3_images/09.jpg)  
 
 Нажмите на каждую кнопку и в редакторе свойств найдите свойство **text** в разделе **QAbstractButton**, в котором поменяйте текст на кнопке.
    
-![](lab3_images/10.jpg)
+![](lab3_images/10.jpg)  
 
 Также поменяйте название объектов для кнопок.
 
-![](lab3_images/11.jpg)
+![](lab3_images/11.jpg)  
 
    - **QMenuBar** – с пунктами меню "Импорт", "Экспорт", "Выход".
 Для этого в меню, где написано «Пишите здесь» нажмите два раза по этому значку и напишите «Действия», нажмите Enter.
 
-![](lab3_images/12.jpg)
+![](lab3_images/12.jpg)  
 
 Добавьте пункты меню «Импорт», «Экспорт», «Выход». Для этого нажмите на значок «Действия» и добавьте все эти пункты меню.
 
-![](lab3_images/13.jpg)
+![](lab3_images/13.jpg)  
 
 Должно получится как на картинке.
 
-![](lab3_images/14.jpg)
+![](lab3_images/14.jpg)  
 
 Измените иконки этих пунктов, для этого нужно создать файл ресурсов Qt, который будет называться «icons».
 
-![](lab3_images/15.jpg)
+![](lab3_images/15.jpg)  
 
 Далее нужно добавить префикс.
 
-![](lab3_images/16.jpg)
+![](lab3_images/16.jpg)  
 
 Создайте в папке проекта папку img, куда поместите 3 png картинки для иконок. Скачать их можно с сайта **flaticon**. 
 
-![](lab3_images/17.jpg)
+![](lab3_images/17.jpg)  
 
 Добавьте эти иконки в файл ресурсов Qt. 
 
-![](lab3_images/18.jpg)
+![](lab3_images/18.jpg)  
 
 Перейдите в `mainwindow.ui` и для каждого пункта прикрепите соответствующие иконки. Для этого в редакторе действий нажмите два раза на определенный пункт и поместите в него иконку. Нажимая **Choose Resource** выберите файлы из папки img.
 
-![](lab3_images/19.jpg)
+![](lab3_images/19.jpg)  
 
 Должно получится как на картинке.
 
-![](lab3_images/20.jpg)
+![](lab3_images/20.jpg)  
 
 ### Шаг 3. Настройка QTableView и функционала кнопок
 - Настроить модель данных (**QStandardItemModel**) для хранения информации о книгах (автор, название, год, жанр).
@@ -138,7 +138,7 @@ private:
 #endif // MAINWINDOW_H
 ```
 
-![](lab3_images/21.jpg)
+![](lab3_images/21.jpg)  
 
 #### Код `mainwindow.cpp`
 ```cpp
@@ -224,7 +224,7 @@ void MainWindow::removeBook()
 }
 ```
 
-![](lab3_images/22.jpg)
+![](lab3_images/22.jpg)  
 
 ---
 
@@ -234,7 +234,7 @@ void MainWindow::removeBook()
 - **QLineEdit** (`searchLineEdit`) – ввод поискового запроса.
 - **QPushButton** (`searchButton`) – кнопка поиска.
 
-![](lab3_images/23.jpg)
+![](lab3_images/23.jpg)  
 
 ### Шаг 2. Реализуйте фильтрацию отображаемых записей в QTableView, по ключевым словам, введенным в строку поиска.
 #### Обновленный `mainwindow.h`
@@ -273,7 +273,7 @@ private:
 #endif // MAINWINDOW_H
 ```
 
-![](lab3_images/24.jpg)
+![](lab3_images/24.jpg)  
 
 #### Добавляем поддержку поиска в `mainwindow.cpp`
 ```cpp
@@ -378,9 +378,9 @@ void MainWindow::searchBooks()
 }
 ```
 
-![](lab3_images/25.jpg)
+![](lab3_images/25.jpg)  
 
-![](lab3_images/26.jpg)
+![](lab3_images/26.jpg)  
 
 ---
 
@@ -390,7 +390,7 @@ void MainWindow::searchBooks()
 Используйте форматы файлов, такие как CSV или JSON, для хранения данных.
 Измените названия объектов для пунктов.
 
-![](lab3_images/27.jpg)
+![](lab3_images/27.jpg)  
 
 #### Добавьте объявления слота для экспорта и импорта CSV в `mainwindow.h`
 ```cpp
@@ -399,7 +399,7 @@ private slots:
     void exportCSV();
 ```
 
-![](lab3_images/28.jpg)
+![](lab3_images/28.jpg)  
 
 #### Добавьте код для обработки пунктов экспорта, импорта и выхода в `mainwindow.cpp`
 
@@ -443,7 +443,7 @@ void MainWindow::exportCSV()
 }
 ```
 
-![](lab3_images/29.jpg)
+![](lab3_images/29.jpg)  
 
 Для импорта 
 
@@ -493,7 +493,7 @@ void MainWindow::importCSV()
 }
 ```
 
-![](lab3_images/30.jpg)
+![](lab3_images/30.jpg)  
 
 Соедините сигналы наших пунктов
 
@@ -503,7 +503,7 @@ void MainWindow::importCSV()
     connect(ui->actionExit, &QAction::triggered, this, &QApplication::quit);
 ```
 
-![](lab3_images/31.jpg)
+![](lab3_images/31.jpg)  
 
 ---
 
@@ -512,49 +512,49 @@ void MainWindow::importCSV()
 
 1. Первоначальное окно
 
-![](lab3_images/32.jpg)
+![](lab3_images/32.jpg)  
 
 2. Добавление информации о книге
 
-![](lab3_images/33.jpg)
+![](lab3_images/33.jpg)  
 
-![](lab3_images/34.jpg)
+![](lab3_images/34.jpg)  
 
-![](lab3_images/35.jpg)
+![](lab3_images/35.jpg)  
 
-![](lab3_images/36.jpg)
+![](lab3_images/36.jpg)  
 
-![](lab3_images/37.jpg)
+![](lab3_images/37.jpg)  
 
 3. Редактирование
 
-![](lab3_images/38.jpg)
+![](lab3_images/38.jpg)  
 
-![](lab3_images/39.jpg)
+![](lab3_images/39.jpg)  
 
-![](lab3_images/40.jpg)
+![](lab3_images/40.jpg)  
 
 4.Поиск
 
-![](lab3_images/41.jpg)
+![](lab3_images/41.jpg)  
 
-![](lab3_images/42.jpg)
+![](lab3_images/42.jpg)  
 
 5. Экспорт
 
-![](lab3_images/43.jpg)
+![](lab3_images/43.jpg)  
 
-![](lab3_images/44.jpg)
+![](lab3_images/44.jpg)  
 
-![](lab3_images/45.jpg)
+![](lab3_images/45.jpg)  
 
 6. Импорт
 
-![](lab3_images/46.jpg)
+![](lab3_images/46.jpg)  
 
-![](lab3_images/47.jpg)
+![](lab3_images/47.jpg)  
 
-![](lab3_images/48.jpg)
+![](lab3_images/48.jpg)  
 
 ---
 
