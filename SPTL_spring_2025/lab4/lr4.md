@@ -12,12 +12,17 @@
 
 ---
 
-## ЧАСТЬ 1
-### Детальные инструкции к выполнению
+## ЧАСТЬ 1 - Детальные инструкции к выполнению
 
 ### Шаг 1. Создание класса кастомного виджета
 1. Создайте новый класс C++. В созданном проекте нажмите правой кнопкой мыши по папке `Source Files` и выберите `Add New`.
+
+![](lab4_images/1.jpg)  
+
 2. Назовите класс `ProgressIndicator`.
+
+![](lab4_images/2.jpg)  
+
 3. Измените код в файле `progressindicator.h`. Наследуйте его от `QWidget`.
 
 ```cpp
@@ -39,12 +44,16 @@ public:
 #endif // PROGRESSINDICATOR_H
 ```
 
+![](lab4_images/3.jpg)  
+
 ### Шаг 2. Переопределение метода отрисовки
-В классе `ProgressIndicator` переопределите метод `paintEvent(QPaintEvent *event)`, используя `QPainter`:
+В классе `ProgressIndicator` переопределите метод `paintEvent(QPaintEvent *event)`для отрисовки индикатора выполнения. Используйте `QPainter` для рисования индикатора.
 
 ```cpp
 protected:
     void paintEvent(QPaintEvent *event) override;
+
+![](lab4_images/4.jpg)  
 
 void ProgressIndicator::paintEvent(QPaintEvent *event)
 {
@@ -79,41 +88,109 @@ void ProgressIndicator::paintEvent(QPaintEvent *event)
 }
 ```
 
+![](lab4_images/5.jpg)  
+
 ### Шаг 3. Добавление свойств виджета
-Добавьте свойства `progressValue`, `maximumValue` и `minimumValue`:
+1. Добавьте в класс `ProgressIndicator` свойства, такие как `progressValue` (текущее значение прогресса), `maximumValue` (максимальное значение) и `minimumValue` (минимальное значение).
 
 ```cpp
+#ifndef PROGRESSINDICATOR_H
+#define PROGRESSINDICATOR_H
+
+#include <QWidget>
+#include <QPainter>
+#include <QWheelEvent>
+
+class ProgressIndicator : public QWidget
+{
+    Q_OBJECT
+
+public:
+    explicit ProgressIndicator(QWidget *parent = nullptr);
+
+    void setProgressValue(int value);
+    int progressValue() const;
+
+    void setMaximumValue(int value);
+    int maximumValue() const;
+
+    void setMinimumValue(int value);
+    int minimumValue() const;
+
+protected:
+    void paintEvent(QPaintEvent *event) override;
+
 private:
     int m_progressValue;
     int m_maximumValue;
     int m_minimumValue;
+};
+#endif // PROGRESSINDICATOR_H
 ```
 
-Реализуйте методы для работы со свойствами:
+![](lab4_images/6.jpg)  
+
+2. Реализуйте методы для работы со свойствами.
 
 ```cpp
+ProgressIndicator::ProgressIndicator(QWidget *parent)
+    : QWidget(parent), m_progressValue(0), m_maximumValue(100), m_minimumValue(0)
+{
+    setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+}
+
 void ProgressIndicator::setProgressValue(int value)
 {
-    if (value < m_minimumValue) value = m_minimumValue;
-    if (value > m_maximumValue) value = m_maximumValue;
+    if (value < m_minimumValue)
+        value = m_minimumValue;
+    if (value > m_maximumValue)
+        value = m_maximumValue;
+
     m_progressValue = value;
     update();
 }
 
-int ProgressIndicator::progressValue() const { return m_progressValue; }
-void ProgressIndicator::setMaximumValue(int value) { m_maximumValue = value; update(); }
-int ProgressIndicator::maximumValue() const { return m_maximumValue; }
-void ProgressIndicator::setMinimumValue(int value) { m_minimumValue = value; update(); }
-int ProgressIndicator::minimumValue() const { return m_minimumValue; }
+int ProgressIndicator::progressValue() const
+{
+    return m_progressValue;
+}
+
+void ProgressIndicator::setMaximumValue(int value)
+{
+    m_maximumValue = value;
+    update();
+}
+
+int ProgressIndicator::maximumValue() const
+{
+    return m_maximumValue;
+}
+
+void ProgressIndicator::setMinimumValue(int value)
+{
+    m_minimumValue = value;
+    update();
+}
+
+int ProgressIndicator::minimumValue() const
+{
+    return m_minimumValue;
+}
 ```
 
+![](lab4_images/7.jpg) 
+
 ### Шаг 4. Реализация интерактивности
-Добавьте возможность изменять значение прогресса через колесо мыши:
+Добавьте возможность изменять значение прогресса через колесо мыши.
 
 ```cpp
 protected:
     void wheelEvent(QWheelEvent *event) override;
+```
 
+![](lab4_images/8.jpg) 
+
+```cpp
 void ProgressIndicator::wheelEvent(QWheelEvent *event)
 {
     int delta = event->angleDelta().y() / 120;
@@ -121,13 +198,14 @@ void ProgressIndicator::wheelEvent(QWheelEvent *event)
 }
 ```
 
+![](lab4_images/9.jpg) 
+
 ---
 
-## ЧАСТЬ 2
-### Интеграция кастомного виджета в приложение
+## ЧАСТЬ 2 - Интеграция кастомного виджета в приложение
 
-### Шаг 1. Создание главного окна
-Создайте файлы `mainwindow.h` и `mainwindow.cpp`:
+### Шаг 1. Создание главного окна приложения
+1. Используйте `QMainWindow` или `QWidget` в качестве контейнера для вашего кастомного виджета. Создайте новые файлы `mainwindow.h` и `mainwindow.cpp` для реализации главного окна.
 
 ```cpp
 #ifndef MAINWINDOW_H
@@ -154,11 +232,12 @@ private:
 #endif // MAINWINDOW_H
 ```
 
+![](lab4_images/10.jpg) 
+
 Реализуйте `mainwindow.cpp`:
 
 ```cpp
 #include "mainwindow.h"
-
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
 {
@@ -166,7 +245,7 @@ MainWindow::MainWindow(QWidget *parent)
 
     slider = new QSlider(Qt::Horizontal, this);
     slider->setRange(0, 100);
-    slider->setValue(0);
+    slider->setValue(0); 
 
     QVBoxLayout *layout = new QVBoxLayout();
     layout->addWidget(progressIndicator);
@@ -184,8 +263,10 @@ MainWindow::~MainWindow()
 }
 ```
 
-### Шаг 2. Запуск приложения
-Создайте файл `main.cpp`:
+![](lab4_images/11.jpg) 
+
+### Шаг 2. Тестирование приложения
+1. Создадим файл `main.cpp` для запуска приложения и тестирования виджета.
 
 ```cpp
 #include <QApplication>
@@ -194,11 +275,25 @@ MainWindow::~MainWindow()
 int main(int argc, char *argv[])
 {
     QApplication app(argc, argv);
+
     MainWindow mainWindow;
     mainWindow.show();
+
     return app.exec();
 }
 ```
+
+![](lab4_images/12.jpg) 
+
+2.	Реализуйте изменение значения индикатора выполнения через предоставленный интерфейс и убедитесь, что отрисовка индикатора корректно обновляется.
+
+![](lab4_images/13.jpg)
+
+![](lab4_images/14.jpg)
+
+Также с помощью колесика.
+
+![](lab4_images/15.jpg)
 
 ---
 
@@ -209,6 +304,10 @@ int main(int argc, char *argv[])
 4. Реализовать анимацию изменения значения прогресса.
 5. Добавить изменение значения с помощью колесика мыши и слайдера.
 6. Отображать текущее значение прогресса в виде текста в центре спирали.
+
+Примерный вариант:
+
+![](lab4_images/16.jpg)
 
 ---
 
