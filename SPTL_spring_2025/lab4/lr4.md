@@ -52,9 +52,11 @@ public:
 ```cpp
 protected:
     void paintEvent(QPaintEvent *event) override;
+```
 
 ![](lab4_images/4.jpg)  
 
+```cpp
 void ProgressIndicator::paintEvent(QPaintEvent *event)
 {
     Q_UNUSED(event);
