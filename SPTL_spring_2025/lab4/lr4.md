@@ -1,11 +1,17 @@
 # ЛАБОРАТОРНАЯ РАБОТА №4
 ## СОЗДАНИЕ КАСТОМНОГО ВИДЖЕТА С ПЕРЕОПРЕДЕЛЕНИЕМ СОБЫТИЙ ОТРИСОВКИ
 
+---
+
 ## Цель работы
 Научиться создавать кастомные виджеты в Qt, используя механизмы переопределения событий отрисовки. Разработать приложение, которое демонстрирует использование созданного кастомного виджета.
 
+---
+
 ## Задание
 Разработка кастомного виджета "Индикатор выполнения".
+
+---
 
 ## ФОРМИРОВАНИЕ ОТЧЕТА
 В отчёте по лабораторной работе необходимо кратко изложить описание выполненных действий с использованием соответствующих команд, приложить скриншоты настроек и результатов тестов для наглядности. Также следует указать на возникшие в процессе работы проблемы и описать найденные способы их решения. В случае наличия контрольных вопросов, ответы на них должны быть интегрированы в текст.
@@ -49,12 +55,16 @@ public:
 ### Шаг 2. Переопределение метода отрисовки
 В классе `ProgressIndicator` переопределите метод `paintEvent(QPaintEvent *event)`для отрисовки индикатора выполнения. Используйте `QPainter` для рисования индикатора.
 
+Добавьте в `progressindicator.h` следующее:
+
 ```cpp
 protected:
     void paintEvent(QPaintEvent *event) override;
 ```
 
 ![](lab4_images/4.jpg)  
+
+Добавьте в `progressindicator.cpp` следующее:
 
 ```cpp
 void ProgressIndicator::paintEvent(QPaintEvent *event)
@@ -95,6 +105,8 @@ void ProgressIndicator::paintEvent(QPaintEvent *event)
 ### Шаг 3. Добавление свойств виджета
 1. Добавьте в класс `ProgressIndicator` свойства, такие как `progressValue` (текущее значение прогресса), `maximumValue` (максимальное значение) и `minimumValue` (минимальное значение).
 
+Измените файл `progressindicator.h` на следующее содержание:
+
 ```cpp
 #ifndef PROGRESSINDICATOR_H
 #define PROGRESSINDICATOR_H
@@ -133,6 +145,8 @@ private:
 ![](lab4_images/6.jpg)  
 
 2. Реализуйте методы для работы со свойствами.
+
+Добавьте в `progressindicator.cpp` следующее:
 
 ```cpp
 ProgressIndicator::ProgressIndicator(QWidget *parent)
@@ -185,12 +199,16 @@ int ProgressIndicator::minimumValue() const
 ### Шаг 4. Реализация интерактивности
 Добавьте возможность изменять значение прогресса через колесо мыши.
 
+Добавьте в `progressindicator.h` следующее:
+
 ```cpp
 protected:
     void wheelEvent(QWheelEvent *event) override;
 ```
 
 ![](lab4_images/8.jpg) 
+
+Добавьте в `progressindicator.cpp` следующее:
 
 ```cpp
 void ProgressIndicator::wheelEvent(QWheelEvent *event)
@@ -208,6 +226,8 @@ void ProgressIndicator::wheelEvent(QWheelEvent *event)
 
 ### Шаг 1. Создание главного окна приложения
 1. Используйте `QMainWindow` или `QWidget` в качестве контейнера для вашего кастомного виджета. Создайте новые файлы `mainwindow.h` и `mainwindow.cpp` для реализации главного окна.
+
+Добавьте в `mainwindow.h` следующее:
 
 ```cpp
 #ifndef MAINWINDOW_H
