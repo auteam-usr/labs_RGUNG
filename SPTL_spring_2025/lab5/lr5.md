@@ -551,7 +551,7 @@ CustomGraphicsScene* GraphicModel::getScene() const {
 
 ```
 
-![](lab4_images/12.jpg) 
+![](lab5_images/12.jpg) 
 
 ---
 
