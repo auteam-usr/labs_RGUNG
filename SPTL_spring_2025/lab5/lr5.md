@@ -85,8 +85,6 @@ private:
 
 ```
 
-![](lab5_images/2.jpg)  
-
 Добавьте в `mainwindow.cpp` следующее:
 
 ```cpp
@@ -209,12 +207,6 @@ void MainWindow::handleMouseReleased() {
 
 ```
 
-![](lab5_images/3.jpg)  
-
-![](lab5_images/4.jpg)  
-
-![](lab5_images/5.jpg)  
-
 ### Шаг 3.  Создание модели данных(Model)
 Модель отвечает за хранение данных и бизнес-логику приложения.
 1.	Нужно разработать базовый класс `Shape` где определить общие свойства всех фигур (координаты, цвет), реализовать методы отрисовки (paint) и обработки событий.
@@ -275,8 +267,6 @@ private:
 #endif // SHAPE_H
 
 ```
-
-![](lab5_images/6.jpg)  
 
 Добавьте в `shape.cpp` следующее:
 
@@ -462,14 +452,6 @@ void Shape::hoverMoveEvent(QGraphicsSceneHoverEvent* event) {
 
 ```
 
-![](lab5_images/7.jpg)  
-
-![](lab5_images/8.jpg)  
-
-![](lab5_images/9.jpg)  
-
-![](lab5_images/10.jpg)  
-
 Добавьте в `graphicmodel.h` следующее:
 
 ```cpp
@@ -504,8 +486,6 @@ private:
 #endif // GRAPHICMODEL_H
 
 ```
-
-![](lab5_images/11.jpg)  
 
 Добавьте в `graphicmodel.cpp` следующее:
 
@@ -550,8 +530,6 @@ CustomGraphicsScene* GraphicModel::getScene() const {
 }
 
 ```
-
-![](lab5_images/12.jpg) 
 
 ---
 
@@ -605,8 +583,6 @@ private:
 #endif // GRAPHICCONTROLLER_H
 
 ```
-
-![](lab5_images/13.jpg)  
 
 Реализуйте `graphiccontroller.cpp`:
 
@@ -720,12 +696,6 @@ void GraphicController::clearAll() {
 }
 
 ```
-
-![](lab5_images/14.jpg)  
-
-![](lab5_images/15.jpg)  
-
-![](lab5_images/16.jpg) 
 
 ## ЧАСТЬ 2 - Интеграция MVC в приложение
 
