@@ -531,6 +531,71 @@ CustomGraphicsScene* GraphicModel::getScene() const {
 
 ```
 
+Добавьте в `customgraphicsscene.h` следующее:
+
+```cpp
+#ifndef CUSTOMGRAPHICSSCENE_H
+#define CUSTOMGRAPHICSSCENE_H
+
+#include <QGraphicsScene>
+#include <QGraphicsSceneMouseEvent>
+
+class CustomGraphicsScene : public QGraphicsScene
+{
+    Q_OBJECT
+public:
+    explicit CustomGraphicsScene(QObject *parent = nullptr);
+
+signals:
+    void sceneMousePressed(const QPointF &pos);
+    void sceneMouseMoved(const QPointF &pos);
+    void sceneMouseReleased();
+
+protected:
+    void mousePressEvent(QGraphicsSceneMouseEvent *event) override;
+    void mouseMoveEvent(QGraphicsSceneMouseEvent *event) override;
+    void mouseReleaseEvent(QGraphicsSceneMouseEvent *event) override;
+};
+
+#endif // CUSTOMGRAPHICSSCENE_H
+
+```
+
+Добавьте в `customgraphicsscene.cpp` следующее:
+```cpp
+#include "customgraphicsscene.h"
+
+CustomGraphicsScene::CustomGraphicsScene(QObject *parent) 
+    : QGraphicsScene(parent)
+{
+}
+
+void CustomGraphicsScene::mousePressEvent(QGraphicsSceneMouseEvent *event)
+{
+    QGraphicsScene::mousePressEvent(event);
+    if (!event->isAccepted()) {
+        emit sceneMousePressed(event->scenePos());
+    }
+}
+
+void CustomGraphicsScene::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
+{
+    QGraphicsScene::mouseMoveEvent(event);
+    if (!event->isAccepted()) {
+        emit sceneMouseMoved(event->scenePos());
+    }
+}
+
+void CustomGraphicsScene::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
+{
+    QGraphicsScene::mouseReleaseEvent(event);
+    if (!event->isAccepted()) {
+        emit sceneMouseReleased();
+    }
+}
+
+```
+
 ---
 
 ### Шаг 4. Реализация контроллера(Controller)
