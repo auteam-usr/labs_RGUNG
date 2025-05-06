@@ -339,46 +339,102 @@ ApplicationWindow {
 ### Шаг 4. Интеграция с базой данных
 Студенты должны реализовать взаимодействие приложения с базой данных. Это включает в себя выполнение запросов на добавление, удаление, изменение и извлечение данных. Для интеграции с базой данных рекомендуется использовать классы Qt SQL и обеспечить взаимодействие с QML через С++.
 
-- Класс Database jбеспечивает взаимодействие с SQLite:
+- Класс Database беспечивает взаимодействие с SQLite:
     - Подключение к базе данных
     - Выполнение SQL-запросов
     - Возврат данных в QML
 
+Установите `apt-get install qt6-sql` для работы с sqllite.
+
+Добавьте в `CMakeLists.txt` следующее:
+
+```cpp
+cmake_minimum_required(VERSION 3.16)
+
+project(laba77 VERSION 0.1 LANGUAGES CXX)
+
+set(CMAKE_AUTOUIC ON)
+set(CMAKE_AUTOMOC ON)
+set(CMAKE_AUTORCC ON)
+
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+
+# Ищем основные модули Qt
+find_package(QT NAMES Qt6 Qt5 REQUIRED COMPONENTS Widgets Quick Sql)
+find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Widgets Quick Sql)
+
+set(PROJECT_SOURCES
+        main.cpp
+        mainwindow.cpp
+        mainwindow.h
+        mainwindow.ui
 
 
-`#ifndef DATABASE_H
-#define DATABASE_H
+)
 
-#include <QObject>
-#include <QSqlDatabase>
-#include <QSqlQuery>
-#include <QSqlError>
-#include <QVariantList>
+if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
+    qt_add_executable(laba77
+        MANUAL_FINALIZATION
+        ${PROJECT_SOURCES}
+        main.qml
+    )
 
-class Database : public QObject
-{
-    Q_OBJECT
-public:
-    explicit Database(QObject *parent = nullptr);
-    ~Database();
+    # Добавляем QML модуль
+    qt_add_qml_module(laba77
+        URI Laba77
+        VERSION 1.0
+        QML_FILES main.qml
+        QML_FILES
+        QML_FILES
+        SOURCES database.h database.cpp
+    )
+else()
+    if(ANDROID)
+        add_library(laba77 SHARED
+            ${PROJECT_SOURCES}
+        )
+    else()
+        add_executable(laba77
+            ${PROJECT_SOURCES}
+        )
+    endif()
+endif()
 
-    bool connectToDatabase(const QString &path);
-    void closeDatabase();
+# Подключаем все необходимые модули
+target_link_libraries(laba77 PRIVATE
+    Qt${QT_VERSION_MAJOR}::Widgets
+    Qt${QT_VERSION_MAJOR}::Quick
+    Qt${QT_VERSION_MAJOR}::Sql
+)
 
-    Q_INVOKABLE bool addBook(const QString &title, const QString &author, int year, const QString &genre, bool available);
-    Q_INVOKABLE bool updateBook(int id, const QString &title, const QString &author, int year, const QString &genre, bool available);
-    Q_INVOKABLE bool deleteBook(int id);
-    Q_INVOKABLE QVariantList getAllBooks();
-    Q_INVOKABLE QVariantList searchBooks(const QString &searchTerm);
+if(${QT_VERSION} VERSION_LESS 6.1.0)
+  set(BUNDLE_ID_OPTION MACOSX_BUNDLE_GUI_IDENTIFIER com.example.laba77)
+endif()
+set_target_properties(laba77 PROPERTIES
+    ${BUNDLE_ID_OPTION}
+    MACOSX_BUNDLE_BUNDLE_VERSION ${PROJECT_VERSION}
+    MACOSX_BUNDLE_SHORT_VERSION_STRING ${PROJECT_VERSION_MAJOR}.${PROJECT_VERSION_MINOR}
+    MACOSX_BUNDLE TRUE
+    WIN32_EXECUTABLE TRUE
+)
 
-private:
-    QSqlDatabase m_db;
-};
+include(GNUInstallDirs)
+install(TARGETS laba77
+    BUNDLE DESTINATION .
+    LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
+    RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
+)
 
-#endif // DATABASE_H`
+if(QT_VERSION_MAJOR EQUAL 6)
+    qt_finalize_executable(laba77)
+endif()
+```
 
+Добавьте в `database.cpp` следующее:
 
-`#include "database.h"
+```cpp
+#include "database.h"
 #include <QDebug>
 #include <QStandardPaths>
 
@@ -512,64 +568,81 @@ QVariantList Database::searchBooks(const QString &searchTerm)
         books.append(book);
     }
     return books;
-}`  
+}
+```  
 
+Добавьте в `database.h` следующее:
 
-`#include <QGuiApplication>
+```cpp
+#ifndef DATABASE_H
+#define DATABASE_H
+
+#include <QObject>
+#include <QSqlDatabase>
+#include <QSqlQuery>
+#include <QSqlError>
+#include <QVariantList>
+
+class Database : public QObject
+{
+    Q_OBJECT
+public:
+    explicit Database(QObject *parent = nullptr);
+    ~Database();
+
+    bool connectToDatabase(const QString &path);
+    void closeDatabase();
+
+    Q_INVOKABLE bool addBook(const QString &title, const QString &author, int year, const QString &genre, bool available);
+    Q_INVOKABLE bool updateBook(int id, const QString &title, const QString &author, int year, const QString &genre, bool available);
+    Q_INVOKABLE bool deleteBook(int id);
+    Q_INVOKABLE QVariantList getAllBooks();
+    Q_INVOKABLE QVariantList searchBooks(const QString &searchTerm);
+
+private:
+    QSqlDatabase m_db;
+};
+
+#endif // DATABASE_H
+```
+
+Добавьте в `main.cpp` следующее:
+
+```cpp
+#include <QGuiApplication>
 #include <QQmlApplicationEngine>
 #include <QQmlContext>
 #include "database.h"
 
 int main(int argc, char *argv[])
 {
+    // Отключаем предупреждение об отладке QML
+    qputenv("QT_LOGGING_RULES", "qt.qml.debug=false");
+
     QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
     QGuiApplication app(argc, argv);
 
     Database db;
     if (!db.connectToDatabase("/home/user/Рабочий стол/external_database.db")) {
+        qCritical() << "Failed to connect to database!";
         return -1;
     }
 
     QQmlApplicationEngine engine;
     engine.rootContext()->setContextProperty("database", &db);
-    engine.load(QUrl(QStringLiteral("qrc:/main.qml")));
 
-    if (engine.rootObjects().isEmpty())
-        return -1;
+    const QUrl url(QStringLiteral("Laba77/main.qml"));
+    QObject::connect(&engine, &QQmlApplicationEngine::objectCreated,
+                     &app, [url](QObject *obj, const QUrl &objUrl) {
+        if (!obj && url == objUrl)
+            QCoreApplication::exit(-1);
+    }, Qt::QueuedConnection);
+
+    engine.load(url);
 
     return app.exec();
-}`
-
-
-`cmake_minimum_required(VERSION 3.5)
-
-project(LibraryApp LANGUAGES CXX)
-
-set(CMAKE_AUTOUIC ON)
-set(CMAKE_AUTOMOC ON)
-set(CMAKE_AUTORCC ON)
-set(CMAKE_CXX_STANDARD 17)
-set(CMAKE_CXX_STANDARD_REQUIRED ON)
-
-find_package(Qt6 REQUIRED COMPONENTS Quick Sql QuickControls2)
-
-qt_add_executable(${PROJECT_NAME}
-    main.cpp
-    database.cpp
-    database.h
-)
-
-qt_add_qml_module(${PROJECT_NAME}
-    URI LibraryApp
-    VERSION 1.0
-    QML_FILES main.qml
-)
-
-target_link_libraries(${PROJECT_NAME} PRIVATE
-    Qt6::Quick
-    Qt6::QuickControls2
-    Qt6::Sql
-)`
+}
+`
 
 ## ЧАСТЬ 2 - Тестирование приложения
 
