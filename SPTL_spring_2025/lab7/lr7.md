@@ -62,37 +62,20 @@ INSERT INTO books (title, author, year, genre, available) VALUES
 ### Шаг 3.  Разработка интерфейса пользователя
 Используя QML, студенты разрабатывают интерфейс пользователя для своего приложения. Интерфейс должен быть интуитивно понятным и обеспечивать легкий доступ ко всем функциям приложения.
 
-Основные экраны
-Список книг
+- Список книг
+    - Отображает книги в виде списка
+    - Поля: название, автор, год, жанр, статус доступности
+    - Кнопки "Изменить" и "Удалить" для каждой книги
+- Поиск
+    - Поле ввода для поиска по названию
+- Форма добавления/редактирования книги
+    - Поля: название, автор, год, жанр, чекбокс "Доступна"
+    - Кнопки "Сохранить" и "Отмена"
 
-Отображает книги в виде списка
+Добавьте в `main.qml` следующее:
 
-Поля: название, автор, год, жанр, статус доступности
-
-Кнопки "Изменить" и "Удалить" для каждой книги
-
-Поиск
-
-Поле ввода для поиска по названию, автору или жанру
-
-Форма добавления/редактирования книги
-
-Поля: название, автор, год, жанр, чекбокс "Доступна"
-
-Кнопки "Сохранить" и "Отмена"
-
-Используемые компоненты QML
-ListView – для отображения списка книг
-
-TextField – для ввода данных
-
-Button – для действий (добавить, сохранить, удалить)
-
-Popup – для формы редактирования
-
-Dialog – для подтверждения удаления
-
-`import QtQuick 2.15
+```cpp
+import QtQuick 2.15
 import QtQuick.Controls 2.15
 import QtQuick.Layouts 1.15
 
@@ -110,6 +93,11 @@ ApplicationWindow {
         spacing: 10
 
         RowLayout {
+            Layout.fillWidth: true
+            Layout.leftMargin: 10
+            Layout.rightMargin: 10
+            spacing: 10
+
             TextField {
                 id: searchField
                 placeholderText: "Поиск по названию, автору или жанру"
@@ -126,88 +114,102 @@ ApplicationWindow {
             Button {
                 text: "Добавить книгу"
                 onClicked: {
-                    bookFormPopup.open()
                     currentBookId = -1
                     titleField.text = ""
                     authorField.text = ""
                     yearField.text = ""
                     genreField.text = ""
                     availableCheckBox.checked = true
+                    bookFormPopup.open()
                 }
             }
         }
 
-        ListView {
-            id: bookListView
+        ScrollView {
             Layout.fillWidth: true
             Layout.fillHeight: true
-            clip: true
-            model: ListModel { id: bookModel }
+            Layout.leftMargin: 10
+            Layout.rightMargin: 10
 
-            delegate: ItemDelegate {
+            ListView {
+                id: bookListView
                 width: parent.width
-                height: 80
+                height: parent.height
+                clip: true
+                spacing: 5
+                model: ListModel { id: bookModel }
 
-                RowLayout {
-                    anchors.fill: parent
-                    spacing: 10
+                delegate: ItemDelegate {
+                    width: bookListView.width
+                    height: 80
+                    leftPadding: 10
+                    rightPadding: 10
 
-                    ColumnLayout {
-                        Layout.fillWidth: true
-                        spacing: 5
-
-                        Label {
-                            text: title
-                            font.bold: true
-                            Layout.fillWidth: true
-                        }
-
-                        Label {
-                            text: author + " (" + year + ")"
-                            Layout.fillWidth: true
-                        }
-
-                        Label {
-                            text: genre
-                            color: "gray"
-                            Layout.fillWidth: true
-                        }
-                    }
-
-                    Label {
-                        text: available ? "Доступна" : "Недоступна"
-                        color: available ? "green" : "red"
+                    background: Rectangle {
+                        color: "transparent"
+                        border.color: "#eee"
+                        radius: 5
                     }
 
                     RowLayout {
-                        Button {
-                            text: "Изменить"
-                            onClicked: {
-                                currentBookId = id
-                                titleField.text = title
-                                authorField.text = author
-                                yearField.text = year
-                                genreField.text = genre
-                                availableCheckBox.checked = available
-                                bookFormPopup.open()
+                        anchors.fill: parent
+                        spacing: 10
+
+                        ColumnLayout {
+                            Layout.fillWidth: true
+                            spacing: 5
+
+                            Label {
+                                text: title
+                                font.bold: true
+                                elide: Text.ElideRight
+                                Layout.fillWidth: true
+                            }
+
+                            Label {
+                                text: author + " (" + year + ")"
+                                elide: Text.ElideRight
+                                Layout.fillWidth: true
+                            }
+
+                            Label {
+                                text: genre
+                                color: "gray"
+                                elide: Text.ElideRight
+                                Layout.fillWidth: true
                             }
                         }
 
-                        Button {
-                            text: "Удалить"
-                            onClicked: {
-                                deleteDialog.bookId = id
-                                deleteDialog.open()
+                        Label {
+                            text: available ? "Доступна" : "Недоступна"
+                            color: available ? "green" : "red"
+                        }
+
+                        RowLayout {
+                            spacing: 5
+
+                            Button {
+                                text: "Изменить"
+                                onClicked: {
+                                    currentBookId = id
+                                    titleField.text = title
+                                    authorField.text = author
+                                    yearField.text = year
+                                    genreField.text = genre
+                                    availableCheckBox.checked = available
+                                    bookFormPopup.open()
+                                }
+                            }
+
+                            Button {
+                                text: "Удалить"
+                                onClicked: {
+                                    deleteDialog.bookId = id
+                                    deleteDialog.open()
+                                }
                             }
                         }
                     }
-                }
-            }
-
-            Component.onCompleted: {
-                var books = database.getAllBooks()
-                for (var i = 0; i < books.length; i++) {
-                    bookModel.append(books[i])
                 }
             }
         }
@@ -215,10 +217,13 @@ ApplicationWindow {
 
     Popup {
         id: bookFormPopup
-        width: 400
-        height: 350
+        width: Math.min(window.width * 0.9, 400)
+        height: Math.min(window.height * 0.9, 350)
+        x: (window.width - width) / 2
+        y: (window.height - height) / 2
         modal: true
-        closePolicy: Popup.CloseOnEscape | Popup.CloseOnPressOutsideParent
+        closePolicy: Popup.CloseOnEscape | Popup.CloseOnPressOutside
+        padding: 10
 
         ColumnLayout {
             anchors.fill: parent
@@ -273,28 +278,20 @@ ApplicationWindow {
                     Layout.fillWidth: true
                     onClicked: {
                         if (currentBookId === -1) {
-                            if (database.addBook(titleField.text, authorField.text, 
-                                               parseInt(yearField.text), 
-                                               genreField.text, 
+                            if (database.addBook(titleField.text, authorField.text,
+                                               parseInt(yearField.text),
+                                               genreField.text,
                                                availableCheckBox.checked)) {
-                                bookModel.clear()
-                                var books = database.getAllBooks()
-                                for (var i = 0; i < books.length; i++) {
-                                    bookModel.append(books[i])
-                                }
+                                refreshBookList()
                                 bookFormPopup.close()
                             }
                         } else {
-                            if (database.updateBook(currentBookId, titleField.text, 
-                                                   authorField.text, 
-                                                   parseInt(yearField.text), 
-                                                   genreField.text, 
+                            if (database.updateBook(currentBookId, titleField.text,
+                                                   authorField.text,
+                                                   parseInt(yearField.text),
+                                                   genreField.text,
                                                    availableCheckBox.checked)) {
-                                bookModel.clear()
-                                var books = database.getAllBooks()
-                                for (var i = 0; i < books.length; i++) {
-                                    bookModel.append(books[i])
-                                }
+                                refreshBookList()
                                 bookFormPopup.close()
                             }
                         }
@@ -309,6 +306,8 @@ ApplicationWindow {
         modal: true
         title: "Удаление книги"
         standardButtons: Dialog.Ok | Dialog.Cancel
+        x: (window.width - width) / 2
+        y: (window.height - height) / 2
 
         property int bookId: -1
 
@@ -318,37 +317,34 @@ ApplicationWindow {
 
         onAccepted: {
             if (database.deleteBook(bookId)) {
-                bookModel.clear()
-                var books = database.getAllBooks()
-                for (var i = 0; i < books.length; i++) {
-                    bookModel.append(books[i])
-                }
+                refreshBookList()
             }
         }
     }
-}`  
+
+    function refreshBookList() {
+        bookModel.clear()
+        var books = database.getAllBooks()
+        for (var i = 0; i < books.length; i++) {
+            bookModel.append(books[i])
+        }
+    }
+
+    Component.onCompleted: refreshBookList()
+}
+```  
 
 ---
 
 ### Шаг 4. Интеграция с базой данных
+Студенты должны реализовать взаимодействие приложения с базой данных. Это включает в себя выполнение запросов на добавление, удаление, изменение и извлечение данных. Для интеграции с базой данных рекомендуется использовать классы Qt SQL и обеспечить взаимодействие с QML через С++.
 
-Класс Database
-Обеспечивает взаимодействие с SQLite:
+- Класс Database jбеспечивает взаимодействие с SQLite:
+    - Подключение к базе данных
+    - Выполнение SQL-запросов
+    - Возврат данных в QML
 
-Подключение к базе данных
 
-Выполнение SQL-запросов
-
-Возврат данных в QML
-
-Основные методы
-Метод	Описание
-connectToDatabase()	Подключение к БД
-addBook()	Добавление новой книги
-updateBook()	Обновление данных книги
-deleteBook()	Удаление книги
-getAllBooks()	Получение списка всех книг
-searchBooks()	Поиск книг
 
 `#ifndef DATABASE_H
 #define DATABASE_H
