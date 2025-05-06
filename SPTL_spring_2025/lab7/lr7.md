@@ -32,6 +32,7 @@
 `sqlite3 external_database.db`  
 
 - Создайте таблицу books.
+
 `CREATE TABLE books (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     title TEXT NOT NULL,
