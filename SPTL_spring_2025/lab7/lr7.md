@@ -33,7 +33,7 @@
 
 - Создайте таблицу books.
 
-`CREATE TABLE books (
+```CREATE TABLE books (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     title TEXT NOT NULL,
     author TEXT NOT NULL,
@@ -41,7 +41,7 @@
     genre TEXT,
     available BOOLEAN DEFAULT 1
 );
-`
+```
 
 - Добавьте тестовые данные.
 
