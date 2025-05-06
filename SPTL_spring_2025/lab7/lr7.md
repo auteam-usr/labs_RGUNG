@@ -29,11 +29,12 @@
 На основе выбранной темы студенты должны спроектировать базу данных, определив необходимые таблицы, их поля и связи между ними. Рекомендуется использовать SQLite в качестве СУБД.
 - С помощью sqlite создайте базу данных.
 
-`sqlite3 external_database.db`  
+```sqlite3 external_database.db```  
 
 - Создайте таблицу books.
 
-```CREATE TABLE books (
+```
+CREATE TABLE books (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     title TEXT NOT NULL,
     author TEXT NOT NULL,
