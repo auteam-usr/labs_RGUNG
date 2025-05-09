@@ -48,15 +48,13 @@
 DeviceEmulator::DeviceEmulator(const QString &userType, QObject *parent)
     : QObject(parent), userType(userType), server(new QTcpServer(this)), socket(nullptr)
 {
-    // Инициализация UUID и портов
-    uuidToPortMap[QUuid("550e8400-e29b-41d4-a716-446655440000")] = 12345; // Устройство A
-    uuidToPortMap[QUuid("550e8400-e29b-41d4-a716-446655440001")] = 12346; // Устройство B
+    uuidToPortMap[QUuid("550e8400-e29b-41d4-a716-446655440000")] = 12345;
+    uuidToPortMap[QUuid("550e8400-e29b-41d4-a716-446655440001")] = 12346;
 
     localUuid = (userType == "A")
         ? QUuid("550e8400-e29b-41d4-a716-446655440000")
         : QUuid("550e8400-e29b-41d4-a716-446655440001");
 
-    // Запуск сервера
     if (!server->listen(QHostAddress::LocalHost, uuidToPortMap[localUuid])) {
         qCritical() << "Не удалось запустить сервер:" << server->errorString();
     } else {
@@ -127,7 +125,6 @@ void DeviceEmulator::onNewConnection() {
     connect(socket, &QTcpSocket::disconnected, this, &DeviceEmulator::onDisconnected);
     connect(socket, &QTcpSocket::errorOccurred, this, &DeviceEmulator::onSocketError);
 
-    // Определяем UUID подключившегося устройства
     quint16 peerPort = socket->peerPort();
     remoteUuid = (peerPort == 12345)
         ? QUuid("550e8400-e29b-41d4-a716-446655440000")
