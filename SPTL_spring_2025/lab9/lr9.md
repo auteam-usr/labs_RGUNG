@@ -526,13 +526,17 @@ target_link_libraries(BluetoothEmulator PRIVATE
 ./BluetoothEmulator A
 ./BluetoothEmulator B
 ```
-
+![](lab9_images/1.jpg)  
 - Нажать "Поиск устройств" в любом из окон.
+![](lab9_images/2.jpg)  
 - Выбрать устройство для подключения (например, от пользователя B).
+![](lab9_images/3.jpg)  
 - Отправлять текстовые сообщения через поле ввода.
+![](lab9_images/4.jpg)  
 - Отключиться.
+![](lab9_images/5.jpg)  
 - Повторное подключение (например, от пользователя А). 
-
+![](lab9_images/6.jpg)  
 ---
 
 ## Задание для самостоятельной работы 
