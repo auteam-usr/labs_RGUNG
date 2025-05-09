@@ -203,11 +203,9 @@ private:
 
 ### Шаг 3. Реализация графического интерфейса
 
-	- chatDisplay - область отображения сообщений.
-
-	- messageEdit - поле ввода текста.
-
-	- scanButton - кнопка поиска устройств.
+- chatDisplay - область отображения сообщений.
+- messageEdit - поле ввода текста.
+- scanButton - кнопка поиска устройств.
 
 Добавьте в `mainwindow.cpp` следующее: 
 
@@ -217,16 +215,13 @@ private:
 MainWindow::MainWindow(const QString &userType, QWidget *parent)
     : QMainWindow(parent), currentUser(userType), connectedDeviceName("")
 {
-    // Central Widget
     QWidget *centralWidget = new QWidget(this);
     setCentralWidget(centralWidget);
 
-    // Layouts
     QVBoxLayout *mainLayout = new QVBoxLayout(centralWidget);
     QHBoxLayout *messageLayout = new QHBoxLayout();
     QHBoxLayout *buttonLayout = new QHBoxLayout();
 
-    // Create UI elements
     userLabel = new QLabel(QString("Пользователь %1").arg(userType));
     chatDisplay = new QTextEdit();
     chatDisplay->setReadOnly(true);
@@ -236,11 +231,9 @@ MainWindow::MainWindow(const QString &userType, QWidget *parent)
     disconnectButton = new QPushButton("Отключиться");
     connectionStatus = new QLabel("Не подключено");
 
-    // Status Bar
     statusBar = new QStatusBar();
     setStatusBar(statusBar);
 
-    // Setup layout
     messageLayout->addWidget(messageEdit);
     messageLayout->addWidget(sendButton);
 
@@ -253,14 +246,11 @@ MainWindow::MainWindow(const QString &userType, QWidget *parent)
     mainLayout->addLayout(buttonLayout);
     mainLayout->addWidget(connectionStatus);
 
-    // Window settings
     setWindowTitle(QString("Bluetooth эмулятор - Пользователь %1").arg(userType));
     resize(500, 400);
 
-    // Initialize device emulator
     deviceEmulator = new DeviceEmulator(userType, this);
 
-    // Connections
     connect(scanButton, &QPushButton::clicked, this, &MainWindow::on_scanButton_clicked);
     connect(sendButton, &QPushButton::clicked, this, &MainWindow::on_sendButton_clicked);
     connect(disconnectButton, &QPushButton::clicked, this, &MainWindow::on_disconnectButton_clicked);
@@ -423,7 +413,6 @@ DeviceSelectionDialog::DeviceSelectionDialog(const QString &userType, QWidget *p
     devicesList = new QListWidget(this);
     connectButton = new QPushButton("Подключиться", this);
 
-    // Добавляем все доступные устройства кроме текущего
     if (userType != "A") {
         devicesList->addItem("Устройство A (550e8400-e29b-41d4-a716-446655440000)");
     }
@@ -443,9 +432,7 @@ DeviceSelectionDialog::DeviceSelectionDialog(const QString &userType, QWidget *p
 
 DeviceSelectionDialog::~DeviceSelectionDialog()
 {
-    // Явное удаление не требуется, так как Qt автоматически удаляет дочерние виджеты
-    // Но если нужно выполнить какие-то дополнительные действия при уничтожении,
-    // их можно добавить здесь
+
 }
 
 void DeviceSelectionDialog::on_connectButton_clicked()
@@ -485,7 +472,7 @@ class DeviceSelectionDialog : public QDialog
 
 public:
     explicit DeviceSelectionDialog(const QString &userType, QWidget *parent = nullptr);
-    ~DeviceSelectionDialog() override;  // Добавляем override
+    ~DeviceSelectionDialog() override;
 
 signals:
     void deviceSelected(const QString &uuid);
